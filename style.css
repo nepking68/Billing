@@ -1,0 +1,11 @@
+body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; text-align: center; }
+
+h1, h2 { color: #6B4226; }
+
+#menu, #bill { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+
+button { background-color: #6B4226; color: white; padding: 10px; border: none; cursor: pointer; margin-top: 10px; }
+
+button:hover { background-color: #8B5E3B; }
+
+input { padding: 8px; margin-bottom: 10px; }
