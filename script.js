@@ -1,128 +1,20 @@
-// Load existing menu items from localStorage or create an empty array
-let menuItems = JSON.parse(localStorage.getItem("menuItems")) || [];
-let billItems = [];
-let totalAmount = 0;
+let menu = JSON.parse(localStorage.getItem("menu")) || []; let billItems = []; let history = JSON.parse(localStorage.getItem("history")) || [];
 
-// Display menu on page load
-window.onload = function () {
-    displayMenu();
-};
+document.addEventListener("DOMContentLoaded", loadMenu);
 
-// Function to add a new menu item
-function addMenuItem() {
-    let name = document.getElementById("itemName").value.trim();
-    let price = parseFloat(document.getElementById("itemPrice").value);
+function addMenuItem() { let name = document.getElementById("itemName").value; let price = document.getElementById("itemPrice").value; if (name && price) { menu.push({ name, price }); localStorage.setItem("menu", JSON.stringify(menu)); loadMenu(); } }
 
-    if (!name || isNaN(price) || price <= 0) {
-        alert("Please enter a valid item name and price.");
-        return;
-    }
+function loadMenu() { let menuDiv = document.getElementById("menu"); menuDiv.innerHTML = ""; menu.forEach((item, index) => { let itemDiv = document.createElement("div"); itemDiv.innerHTML = ${item.name} - NPR ${item.price} <button onclick='addToBill(${index})'>Add</button>; menuDiv.appendChild(itemDiv); }); }
 
-    // Add the new item to the menu array
-    menuItems.push({ name, price });
+function addToBill(index) { let quantity = parseInt(document.getElementById("quantity").value) || 1; let item = menu[index]; billItems.push({ name: item.name, price: item.price, quantity }); updateBill(); }
 
-    // Save to localStorage
-    localStorage.setItem("menuItems", JSON.stringify(menuItems));
+function updateBill() { let billList = document.getElementById("bill"); let total = 0; billList.innerHTML = ""; billItems.forEach((item, index) => { total += item.price * item.quantity; let li = document.createElement("li"); li.innerHTML = ${item.name} (x${item.quantity}) - NPR ${item.price * item.quantity}; billList.appendChild(li); }); document.getElementById("total").innerText = total; }
 
-    // Refresh the menu display
-    displayMenu();
+function calculateChange() { let received = document.getElementById("amountReceived").value; let total = document.getElementById("total").innerText; let change = received - total; document.getElementById("changeAmount").innerText = change >= 0 ? change : 0; }
 
-    // Clear input fields
-    document.getElementById("itemName").value = "";
-    document.getElementById("itemPrice").value = "";
-}
+function printBill() { let billContent = Arabica Brew Coffee School\n\n; billItems.forEach(item => { billContent += ${item.name} (x${item.quantity}) - NPR ${item.price * item.quantity}\n; }); billContent += Total: NPR ${document.getElementById("total").innerText}\n; billContent += Thank You for Choosing Us! Have a Safe Day!\n\nBest Wishes from Arabica Brew Coffee School, Koteshwor; history.push(billContent); localStorage.setItem("history", JSON.stringify(history)); window.print(); billItems = []; updateBill(); }
 
-// Function to display menu items
-function displayMenu() {
-    let menuDiv = document.getElementById("menu");
-    menuDiv.innerHTML = ""; // Clear existing menu
+function loadHistory() { let historyList = document.getElementById("history"); historyList.innerHTML = ""; history.forEach(bill => { let li = document.createElement("li"); li.innerText = bill; historyList.appendChild(li); }); }
 
-    if (menuItems.length === 0) {
-        menuDiv.innerHTML = "<p>No items in the menu.</p>";
-        return;
-    }
+loadHistory();
 
-    menuItems.forEach((item, index) => {
-        let button = document.createElement("button");
-        button.textContent = `${item.name} - NPR ${item.price}`;
-        button.onclick = () => addItemToBill(item.name, item.price);
-        menuDiv.appendChild(button);
-    });
-}
-
-// Function to add an item to the bill
-function addItemToBill(name, price) {
-    billItems.push({ name, price });
-    totalAmount += price;
-    updateBill();
-}
-
-// Function to update the bill
-function updateBill() {
-    let billList = document.getElementById("bill");
-    let totalSpan = document.getElementById("total");
-
-    billList.innerHTML = ""; // Clear previous bill items
-
-    billItems.forEach((item) => {
-        let listItem = document.createElement("li");
-        listItem.textContent = `${item.name} - NPR ${item.price}`;
-        billList.appendChild(listItem);
-    });
-
-    totalSpan.textContent = totalAmount;
-}
-
-// Function to calculate change
-function calculateChange() {
-    let received = parseFloat(document.getElementById("amountReceived").value) || 0;
-    let change = received - totalAmount;
-    document.getElementById("changeAmount").textContent = change >= 0 ? change : 0;
-}
-
-// Function to print the bill
-function printBill() {
-    if (billItems.length === 0) {
-        alert("No items added to the bill.");
-        return;
-    }
-
-    let billContent = `Arabica Brew Coffee School\n\n`;
-    billItems.forEach(item => {
-        billContent += `${item.name} - NPR ${item.price}\n`;
-    });
-    let received = parseFloat(document.getElementById("amountReceived").value) || 0;
-    let change = received - totalAmount;
-    billContent += `\nTotal: NPR ${totalAmount}`;
-    billContent += `\nReceived: NPR ${received}`;
-    billContent += `\nChange: NPR ${change >= 0 ? change : 0}`;
-    billContent += `\n\nThank You for Choosing Us!\nHave a Safe Day!`;
-
-    let newWindow = window.open("", "_blank");
-    newWindow.document.write(`<pre>${billContent}</pre>`);
-    newWindow.print();
-}
-
-// Function to filter menu items based on search input
-function filterMenu() {
-    let searchQuery = document.getElementById("search").value.toLowerCase();
-    let menuDiv = document.getElementById("menu");
-
-    menuDiv.innerHTML = ""; // Clear existing menu
-
-    let filteredItems = menuItems.filter(item =>
-        item.name.toLowerCase().includes(searchQuery)
-    );
-
-    if (filteredItems.length === 0) {
-        menuDiv.innerHTML = "<p>No matching items found.</p>";
-        return;
-    }
-
-    filteredItems.forEach((item) => {
-        let button = document.createElement("button");
-        button.textContent = `${item.name} - NPR ${item.price}`;
-        button.onclick = () => addItemToBill(item.name, item.price);
-        menuDiv.appendChild(button);
-    });
-}
