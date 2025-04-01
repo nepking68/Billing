@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Arabica Brew Coffee School</h1>
+    <input type="text" id="search" placeholder="Search menu..." onkeyup="searchMenu()">
+    
+    <div id="menu"></div>
+    
+    <h2>Billing Section</h2>
+    <div id="bill"></div>
+    <p>Total: NPR <span id="total">0</span></p>
+    <button onclick="printBill()">Print Bill</button>
+    
+    <script src="script.js"></script>
+</body>
+</html>
