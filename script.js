@@ -1,23 +1,47 @@
-const menuItems = [ { name: "Espresso", price: 150 }, { name: "Cappuccino", price: 180 }, { name: "Latte", price: 200 }, { name: "Mocha", price: 220 }, { name: "Americano", price: 160 } ];
+let totalAmount = 0;
+let billItems = [];
 
-const menuDiv = document.getElementById("menu"); const billDiv = document.getElementById("bill"); const totalSpan = document.getElementById("total"); let billItems = [];
-
-function displayMenu() { menuDiv.innerHTML = ""; menuItems.forEach((item, index) => { const button = document.createElement("button"); button.textContent = ${item.name} - NPR ${item.price}; button.onclick = () => addToBill(index); menuDiv.appendChild(button); }); }
-
-displayMenu();
-
-function addToBill(index) { billItems.push(menuItems[index]); updateBill(); }
-
-function updateBill() { billDiv.innerHTML = ""; let total = 0; billItems.forEach(item => { const itemDiv = document.createElement("div"); itemDiv.textContent = ${item.name} - NPR ${item.price}; billDiv.appendChild(itemDiv); total += item.price; }); totalSpan.textContent = total; }
-
-function printBill() { let billContent = "Arabica Brew Coffee School\n\n"; billItems.forEach(item => { billContent += ${item.name} - NPR ${item.price}\n; }); billContent += \nTotal: NPR ${totalSpan.textContent}\n; billContent += "\nThank you for choosing us!\nHave a safe day!\nBest wishes from Arabica Brew Coffee School, Koteshwor.";
-
-const printWindow = window.open("", "", "width=600,height=600");
-printWindow.document.write(`<pre>${billContent}</pre>`);
-printWindow.document.close();
-printWindow.print();
-
+function addItem(name, price) {
+    billItems.push({ name, price });
+    totalAmount += price;
+    updateBill();
 }
 
-function searchMenu() { const query = document.getElementById("search").value.toLowerCase(); menuDiv.innerHTML = ""; menuItems.filter(item => item.name.toLowerCase().includes(query)).forEach((item, index) => { const button = document.createElement("button"); button.textContent = ${item.name} - NPR ${item.price}; button.onclick = () => addToBill(index); menuDiv.appendChild(button); }); }
+function updateBill() {
+    let billList = document.getElementById("bill");
+    let totalSpan = document.getElementById("total");
 
+    billList.innerHTML = "";
+    billItems.forEach((item, index) => {
+        let listItem = document.createElement("li");
+        listItem.textContent = `${item.name} - NPR ${item.price}`;
+        billList.appendChild(listItem);
+    });
+
+    totalSpan.textContent = totalAmount;
+}
+
+function printBill() {
+    let billContent = `Arabica Brew Coffee School\n\n`;
+    billItems.forEach(item => {
+        billContent += `${item.name} - NPR ${item.price}\n`;
+    });
+    billContent += `\nTotal: NPR ${totalAmount}\n\nThank You for Choosing Us!\nHave a Safe Day!`;
+
+    let newWindow = window.open("", "_blank");
+    newWindow.document.write(`<pre>${billContent}</pre>`);
+    newWindow.print();
+}
+
+function filterMenu() {
+    let searchQuery = document.getElementById("search").value.toLowerCase();
+    let buttons = document.querySelectorAll("#menu button");
+
+    buttons.forEach(button => {
+        if (button.textContent.toLowerCase().includes(searchQuery)) {
+            button.style.display = "block";
+        } else {
+            button.style.display = "none";
+        }
+    });
+}
