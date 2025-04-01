@@ -1,5 +1,5 @@
 let menuItems = [
-  { name: 'Chips', price: 50 },
+  { name: 'Chips', price: 70 },
   { name: 'Samosa', price: 30 },
   { name: 'Spring Rolls', price: 40 },
   { name: 'Sandwich', price: 60 }
