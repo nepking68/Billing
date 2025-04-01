@@ -1,40 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arabica Brew Coffee School - Billing</title>
+    <title>Billing App - Arabica Brew Coffee School</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h1>Arabica Brew Coffee School</h1>
-    
-    <!-- Add Menu Form -->
-    <h2>Add New Menu Item</h2>
+    <h1>Arabica Brew Coffee School</h1><!-- Menu Section -->
+<div id="menu-section">
+    <h2>Menu</h2>
+    <input type="text" id="search" placeholder="Search menu..." onkeyup="filterMenu()">
+    <div id="menu"></div>
+    <h3>Add New Item</h3>
     <input type="text" id="itemName" placeholder="Item Name">
     <input type="number" id="itemPrice" placeholder="Price (NPR)">
-    <button onclick="addMenuItem()">Add to Menu</button>
+    <button onclick="addMenuItem()">Add Menu Item</button>
+</div>
 
-    <!-- Search Bar -->
-    <input type="text" id="search" placeholder="Search menu..." onkeyup="filterMenu()">
-
-    <!-- Menu Section -->
-    <h2>Menu</h2>
-    <div id="menu"></div>
-
-    <!-- Billing Section -->
-    <h2>Billing Section</h2>
+<!-- Billing Section -->
+<div id="billing-section">
+    <h2>Billing</h2>
     <ul id="bill"></ul>
     <h3>Total: NPR <span id="total">0</span></h3>
-
-    <label>Amount Received (NPR): </label>
-    <input type="number" id="amountReceived" oninput="calculateChange()">
+    <input type="number" id="amountReceived" placeholder="Amount Received" oninput="calculateChange()">
     <h3>Change: NPR <span id="changeAmount">0</span></h3>
-
-    <!-- Print Button -->
     <button onclick="printBill()">Print Bill</button>
+</div>
 
-    <script src="script.js"></script>
+<!-- Billing History -->
+<div id="history-section">
+    <h2>Billing History</h2>
+    <ul id="history"></ul>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
