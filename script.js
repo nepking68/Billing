@@ -5,9 +5,10 @@ let menuItems = [
   { name: 'Sandwich', price: 60 }
 ];
 
-let orderItems = [];
+let orderItems = []; // This will store the items added to the cart
 let totalAmount = 0;
 
+// Filter menu items
 function filterMenu() {
   let searchQuery = document.getElementById('searchMenu').value.toLowerCase();
   let filteredMenu = menuItems.filter(item =>
@@ -16,6 +17,7 @@ function filterMenu() {
   displayMenu(filteredMenu);
 }
 
+// Filter billing items
 function filterBilling() {
   let searchQuery = document.getElementById('searchBilling').value.toLowerCase();
   let filteredBilling = menuItems.filter(item =>
@@ -24,50 +26,70 @@ function filterBilling() {
   displayBilling(filteredBilling);
 }
 
+// Display the menu list
 function displayMenu(menu) {
   let menuList = document.getElementById('menuList');
-  menuList.innerHTML = '';
+  menuList.innerHTML = ''; // Clear the current list
   menu.forEach((item, index) => {
     let li = document.createElement('li');
     li.textContent = `${item.name} - Rs. ${item.price}`;
-    li.onclick = () => addToBilling(index);
+    li.onclick = () => addToBilling(index); // Add to billing when clicked
     menuList.appendChild(li);
   });
 }
 
+// Display the items added to the cart
 function displayBilling(items) {
   let billingList = document.getElementById('billingList');
-  billingList.innerHTML = '';
+  billingList.innerHTML = ''; // Clear the current cart
   items.forEach((item, index) => {
     let li = document.createElement('li');
     li.textContent = `${item.name} - Rs. ${item.price}`;
+
+    // Add a quantity input to update the quantity of the item
     let quantityInput = document.createElement('input');
     quantityInput.type = 'number';
     quantityInput.min = 0;
-    quantityInput.value = 0;
-    quantityInput.onchange = (e) => updateQuantity(index, e.target.value);
+    quantityInput.value = getItemQuantity(item.name); // Set the initial quantity of the item
+    quantityInput.onchange = (e) => updateQuantity(item.name, e.target.value); // Update quantity when changed
+
     li.appendChild(quantityInput);
     billingList.appendChild(li);
   });
 }
 
+// Add items to the cart when clicked
 function addToBilling(index) {
   let item = menuItems[index];
   let existingItem = orderItems.find(order => order.name === item.name);
+  
   if (!existingItem) {
     orderItems.push({ ...item, quantity: 1 });
   } else {
     existingItem.quantity++;
   }
-  updateTotal();
+
+  displayBilling(menuItems); // Re-render the cart
+  updateTotal(); // Update the total amount
 }
 
-function updateQuantity(index, value) {
-  let item = orderItems[index];
-  item.quantity = parseInt(value);
-  updateTotal();
+// Get the quantity of a particular item in the cart
+function getItemQuantity(name) {
+  let item = orderItems.find(order => order.name === name);
+  return item ? item.quantity : 0;
 }
 
+// Update the quantity of an item in the cart
+function updateQuantity(name, value) {
+  let item = orderItems.find(order => order.name === name);
+  if (item) {
+    item.quantity = parseInt(value);
+  }
+
+  updateTotal(); // Recalculate the total after updating quantity
+}
+
+// Update the total amount
 function updateTotal() {
   totalAmount = 0;
   orderItems.forEach(item => {
@@ -76,12 +98,14 @@ function updateTotal() {
   document.getElementById('totalAmount').textContent = totalAmount;
 }
 
+// Calculate the bill when clicked
 function calculateBill() {
   let moneyReceived = document.getElementById('moneyReceived').value;
   let change = moneyReceived - totalAmount;
   document.getElementById('change').textContent = `Change: Rs. ${change}`;
 }
 
+// Print the bill
 function printBill() {
   let billContent = `
     <h1>Arabica Brew Coffee School</h1>
@@ -100,6 +124,6 @@ function printBill() {
   printWindow.print();
 }
 
-// Initial load
+// Initial load of the menu and billing sections
 displayMenu(menuItems);
 displayBilling(menuItems);
