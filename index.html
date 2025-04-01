@@ -1,39 +1,36 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Billing App - Arabica Brew Coffee School</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing App - Arabica Brew Coffee School</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Arabica Brew Coffee School</h1><!-- Menu Section -->
-<div id="menu-section">
-    <h2>Menu</h2>
-    <input type="text" id="search" placeholder="Search menu..." onkeyup="filterMenu()">
-    <div id="menu"></div>
-    <h3>Add New Item</h3>
-    <input type="text" id="itemName" placeholder="Item Name">
-    <input type="number" id="itemPrice" placeholder="Price (NPR)">
-    <button onclick="addMenuItem()">Add Menu Item</button>
-</div>
+  <div class="container">
+    <h1>Arabica Brew Coffee School - Snack Billing</h1>
+    <div id="menu">
+      <input type="text" id="searchMenu" placeholder="Search Menu" onkeyup="filterMenu()">
+      <ul id="menuList">
+        <li data-price="50">Chips - Rs. 50</li>
+        <li data-price="30">Samosa - Rs. 30</li>
+        <li data-price="40">Spring Rolls - Rs. 40</li>
+        <li data-price="60">Sandwich - Rs. 60</li>
+      </ul>
+    </div>
 
-<!-- Billing Section -->
-<div id="billing-section">
-    <h2>Billing</h2>
-    <ul id="bill"></ul>
-    <h3>Total: NPR <span id="total">0</span></h3>
-    <input type="number" id="amountReceived" placeholder="Amount Received" oninput="calculateChange()">
-    <h3>Change: NPR <span id="changeAmount">0</span></h3>
-    <button onclick="printBill()">Print Bill</button>
-</div>
-
-<!-- Billing History -->
-<div id="history-section">
-    <h2>Billing History</h2>
-    <ul id="history"></ul>
-</div>
-
-<script src="script.js"></script>
-
+    <div id="billing">
+      <input type="text" id="searchBilling" placeholder="Search for Billing Items" onkeyup="filterBilling()">
+      <ul id="billingList"></ul>
+      <div id="total">
+        <p>Total: Rs. <span id="totalAmount">0</span></p>
+        <input type="text" id="moneyReceived" placeholder="Money Received">
+        <button onclick="calculateBill()">Calculate Bill</button>
+      </div>
+      <p id="change"></p>
+      <button onclick="printBill()">Print Bill</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
