@@ -1,16 +1,67 @@
-body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; background-color: #f8f9fa; }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
 
-h1, h2 { text-align: center; }
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-input, button { display: block; margin: 10px auto; padding: 10px; width: 80%; font-size: 16px; }
+h1 {
+  text-align: center;
+  color: #333;
+}
 
-button { background-color: #007bff; color: white; border: none; cursor: pointer; }
+#menu, #billing {
+  margin: 20px 0;
+}
 
-button:hover { background-color: #0056b3; }
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
 
-#menu-section, #billing-section, #history-section { background: white; padding: 15px; margin: 10px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+button {
+  padding: 10px 15px;
+  background-color: #8B4513;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
-#menu div, #bill li, #history li { padding: 10px; border-bottom: 1px solid #ddd; text-align: center; }
+button:hover {
+  background-color: #6f330c;
+}
 
-.hidden { display: none; }
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 
+li {
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#total {
+  margin-top: 20px;
+}
+
+#change {
+  font-size: 16px;
+  font-weight: bold;
+  color: green;
+}
